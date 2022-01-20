@@ -1,0 +1,20 @@
+#+TITLE: Inflation
+#+AUTHOR: Rémi Louf
+
+The idea is that while the CPI reflects a reality, this reality is not perceived the same everywhere (regional differences) and by everyone (basket differences). It is also not very actionable since variations are likely to be differentiated between items.
+
+/Wild idea:/ inflation is the result of normal market competition, price slippage is to be expect in a competitive environment.
+
+** TODO How is the CPI built from the individual price indices? :noexport:
+** TODO Plot all prices and average CPI (item difference) :noexport:
+** TODO Plot CPIs for every region on the same plot as well (geographical difference) :noexport:
+** TODO At any given point in time, distribution of increase in CPI/region :noexport:
+** TODO At any given point in time, distribution of increase in CPI/item :noexport:
+** TODO Ranking in inflation increase / for each item, over time. :noexport:
+** TODO Alternative CPI with randomly assigned weights in the basket (use Dirichlet distribution) :noexport:
+
+* References :noexport:
+
+- [[https://en.wikipedia.org/wiki/Quantity_theory_of_money][Wikipedia entry]] on the Quantity Theory of Money, a theory used to "explain" inflation;
+- [[http://jwmason.org/slackwire/inflation-for-whom/]["Inflation for whom?"]] a blog post by JW Mason
+- [[http://jwmason.org/slackwire/alternative-visions-of-inflation/]["Alternative visions of inflation"]] a blog post by JW Mason as well
