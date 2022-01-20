@@ -1,5 +1,6 @@
+.PHONY: fetch-price-data
 
-price_data: data/raw/ap.series \
+DATAFILES = data/raw/ap.series \
 	data/raw/ap.area \
 	data/raw/ap.data.0.Current \
 	data/raw/ap.data.1.HouseholdFuels \
