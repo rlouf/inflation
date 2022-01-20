@@ -8,8 +8,9 @@ DATAFILES = data/raw/ap.series \
 	data/raw/ap.data.3.Food \
 	data/raw/ap.period data/raw/ap.txt
 
-us-prices.db:
+us-prices.db: $(DATAFILES)
 	sqlite3 $@ < schema.sql
+	python parse.py
 
 fetch-price-data: $(DATAFILES)
 
