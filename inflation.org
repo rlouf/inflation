@@ -1,17 +1,37 @@
 #+TITLE: Inflation
 #+AUTHOR: Rémi Louf
 
+#+begin_src elisp
+(pyvenv-workon 'inflation)
+#+end_src
+
 The idea is that while the CPI reflects a reality, this reality is not perceived the same everywhere (regional differences) and by everyone (basket differences). It is also not very actionable since variations are likely to be differentiated between items.
+
+* How to compute the CPI from individual price indices
+
+There is a formula with weights, but there is no way I am going to have enought time to compute all the weights from data; even if I had infinite time I would have a hard time reproduce the BLS's exact CPI value. But this is not what is important here. So we can randomize or play with the weights.
+
+1. Find set of weights s.t. changes are minimized
+
+* Decompose the CPI
+
+#+begin_src python
+import sqlite3
+
+query = """SELECT ...
+           FROM series
+           ORDER BY (year, month)"""
+#+end_src
 
 /Wild idea:/ inflation is the result of normal market competition, price slippage is to be expect in a competitive environment.
 
-** TODO How is the CPI built from the individual price indices? :noexport:
-** TODO Plot all prices and average CPI (item difference) :noexport:
-** TODO Plot CPIs for every region on the same plot as well (geographical difference) :noexport:
-** TODO At any given point in time, distribution of increase in CPI/region :noexport:
-** TODO At any given point in time, distribution of increase in CPI/item :noexport:
-** TODO Ranking in inflation increase / for each item, over time. :noexport:
-** TODO Alternative CPI with randomly assigned weights in the basket (use Dirichlet distribution) :noexport:
+* TODO How is the CPI built from the individual price indices? :noexport:
+* TODO Plot all prices and average CPI (item difference) :noexport:
+* TODO Plot CPIs for every region on the same plot as well (geographical difference) :noexport:
+* TODO At any given point in time, distribution of increase in CPI/region :noexport:
+* TODO At any given point in time, distribution of increase in CPI/item :noexport:
+* TODO Ranking in inflation increase / for each item, over time. :noexport:
+* TODO Alternative CPI with randomly assigned weights in the basket (use Dirichlet distribution) :noexport:
 
 * References :noexport:
 
