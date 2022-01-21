@@ -1,5 +1,7 @@
 #+TITLE: Inflation
 #+AUTHOR: Rémi Louf
+#+PROPERTY: header-args :db us-prices.db
+
 
 #+begin_src elisp
 (pyvenv-workon 'inflation)
@@ -15,12 +17,33 @@ There is a formula with weights, but there is no way I am going to have enought 
 
 * Decompose the CPI
 
+First let's plot the time series for Broccoli:
+
+#+begin_src sqlite :colname yes
+SELECT area_code, year, month, index_value FROM series
+WHERE item_code = 712412
+ORDER BY area_code, year, month
+LIMIT 10
+#+end_src
+
+#+RESULTS:
+| 0 | 1995 |  7 | 0.907 |
+| 0 | 1995 |  8 | 0.889 |
+| 0 | 1995 |  9 | 0.937 |
+| 0 | 1995 | 10 | 0.867 |
+| 0 | 1995 | 11 |   0.8 |
+| 0 | 1995 | 12 | 0.759 |
+| 0 | 1996 |  1 | 1.037 |
+| 0 | 1996 |  2 | 0.926 |
+| 0 | 1996 |  3 | 0.999 |
+| 0 | 1996 |  4 | 0.941 |
+
 #+begin_src python
 import sqlite3
 
-query = """SELECT ...
-           FROM series
-           ORDER BY (year, month)"""
+query = """SELECT area_code, year, month, index_value FROM series
+           WHERE item_code = 712412 -- broccoli
+           ORDER BY area_code, year, month"""
 #+end_src
 
 /Wild idea:/ inflation is the result of normal market competition, price slippage is to be expect in a competitive environment.
@@ -32,6 +55,7 @@ query = """SELECT ...
 * TODO At any given point in time, distribution of increase in CPI/item :noexport:
 * TODO Ranking in inflation increase / for each item, over time. :noexport:
 * TODO Alternative CPI with randomly assigned weights in the basket (use Dirichlet distribution) :noexport:
+* TODO Plot the % of indices that have rose by more than X% in the last period :noexport:
 
 * References :noexport:
 
