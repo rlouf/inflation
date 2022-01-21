@@ -2,12 +2,12 @@
 BEGIN TRANSACTION;
 
 CREATE TABLE series (
-    id TEXT PRIMARY KEY,
     area_code TEXT,
     item_code TEXT,
     year INTEGER NOT NULL,
     month INTEGER NOT NULL,
     index_value REAL,
+    UNIQUE(area_code, item_code, year, month),
     FOREIGN KEY (area_code) REFERENCES areas (code),
     FOREIGN KEY (item_code) REFERENCES items (code)
 );

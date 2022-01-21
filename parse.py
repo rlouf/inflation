@@ -36,8 +36,7 @@ def read_series(conn, path_prices, path_series):
 
         convert_value = lambda entry: None if "-" in entry else float(entry.lstrip())
         prices = [
-            (row[0].rstrip(),)
-            + items[row[0]]
+            items[row[0]]
             + (
                 int(row[1]),
                 int(row[2].replace("M", "")),
@@ -46,9 +45,7 @@ def read_series(conn, path_prices, path_series):
             for row in reader
         ]
         with conn:
-            conn.executemany(
-                "INSERT OR IGNORE INTO series VALUES(?,?,?,?,?,?);", prices
-            )
+            conn.executemany("INSERT OR IGNORE INTO series VALUES(?,?,?,?,?);", prices)
 
 
 if __name__ == "__main__":
