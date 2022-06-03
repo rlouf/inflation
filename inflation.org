@@ -20,31 +20,69 @@ There is a formula with weights, but there is no way I am going to have enought 
 First let's plot the time series for Broccoli:
 
 #+begin_src sqlite :colname yes
-SELECT area_code, year, month, index_value FROM series
-WHERE item_code = 712412
-ORDER BY area_code, year, month
+SELECT year, month, index_value FROM series
+WHERE area_code = '0000'
+AND item_code = 712412
+ORDER BY year, month
 LIMIT 10
 #+end_src
 
 #+RESULTS:
-| 0 | 1995 |  7 | 0.907 |
-| 0 | 1995 |  8 | 0.889 |
-| 0 | 1995 |  9 | 0.937 |
-| 0 | 1995 | 10 | 0.867 |
-| 0 | 1995 | 11 |   0.8 |
-| 0 | 1995 | 12 | 0.759 |
-| 0 | 1996 |  1 | 1.037 |
-| 0 | 1996 |  2 | 0.926 |
-| 0 | 1996 |  3 | 0.999 |
-| 0 | 1996 |  4 | 0.941 |
+| 1995 |  7 | 0.907 |
+| 1995 |  8 | 0.889 |
+| 1995 |  9 | 0.937 |
+| 1995 | 10 | 0.867 |
+| 1995 | 11 |   0.8 |
+| 1995 | 12 | 0.759 |
+| 1996 |  1 | 1.037 |
+| 1996 |  2 | 0.926 |
+| 1996 |  3 | 0.999 |
+| 1996 |  4 | 0.941 |
 
-#+begin_src python
+#+begin_src python :session :results output
+from collections import defaultdict
+from datetime import date
 import sqlite3
 
-query = """SELECT area_code, year, month, index_value FROM series
-           WHERE item_code = 712412 -- broccoli
-           ORDER BY area_code, year, month"""
+query = """SELECT item_code, index_value, year, month FROM series
+           WHERE area_code = '0000'
+           AND YEAR >= 2020
+           ORDER BY item_code, year, month"""
+
+conn = sqlite3.connect("us-prices.db")
+cur = conn.cursor()
+cur.execute(query)
+
+cpi = defaultdict(list)
+dates = defaultdict(list)
+for row in cur:
+    cpi[row[0]].append(row[1])
+    dates[row[0]].append(date(row[2], row[3], 1))
 #+end_src
+
+#+RESULTS:
+
+#+begin_src python :session :results file :exports both :var filename=(org-babel-temp-file "figure" ".png")
+from matplotlib import pylab as plt
+
+fig = plt.figure(figsize=(8,5))
+ax = fig.add_subplot(111)
+for key, values in cpi.items():
+    norm_values = [(val/values[0]-1)*100 for val in values]
+    ax.plot(dates[key], norm_values, 'k', alpha=0.2)
+
+ax.spines.right.set_visible(False)
+ax.spines.top.set_visible(False)
+ax.axhline(0, color='#BF616A', linestyle='--', alpha=0.5)
+ax.set_title("% change of CPI components since 2020")
+ax.set_ylabel("% change since Jan 2020")
+ax.set_xlabel("Date")
+plt.savefig(filename)
+filename
+#+end_src
+
+#+RESULTS:
+[[file:/tmp/babel-KRwa2C/figure7zF48L.png]]
 
 /Wild idea:/ inflation is the result of normal market competition, price slippage is to be expect in a competitive environment.
 
